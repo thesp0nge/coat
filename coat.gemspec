@@ -21,9 +21,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency "racc"
   s.add_development_dependency "rex"
   s.add_development_dependency "rake"
-
-
-  # specify any dependencies here; for example:
-  # s.add_development_dependency "rspec"
-  # s.add_runtime_dependency "rest-client"
+  s.add_development_dependency "rspec"
 end

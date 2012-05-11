@@ -1,5 +1,4 @@
-require "coat/version"
+require 'coat/version'
+require 'coat/lexer'
+require 'coat/parser'
 
-module Coat
-  # Your code goes here...
-end
