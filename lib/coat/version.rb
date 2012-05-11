@@ -1,0 +1,3 @@
+module Coat
+  VERSION = "0.0.1"
+end
