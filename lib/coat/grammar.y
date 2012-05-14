@@ -1,6 +1,7 @@
 class Coat::Parser 
 
 token CONTRACT
+token CONSTANT
 token NEWLINE
 token NUMBER
 token STRING
@@ -35,6 +36,7 @@ rule
   # All types of expressions in our language
   Expression:
     Literal
+  | Contract
   | Call
   | Assign
   | '(' Expression ')'    { result = val[1] }
@@ -54,6 +56,11 @@ rule
   | FALSE                         { result = FalseNode.new }
   | NIL                           { result = NilNode.new }
   ;
+
+  Contract:
+  CONTRACT CONSTANT ":" Block          { result = ContractNode.new(val[1], val[2]) }
+  ;
+
   
   # A method call
   Call:

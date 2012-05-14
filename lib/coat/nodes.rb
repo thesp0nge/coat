@@ -48,8 +48,8 @@ class SetLocalNode < Struct.new(:name, :value); end
 # Method definition.
 class DefNode < Struct.new(:name, :params, :body); end
 
-# Class definition.
-class ClassNode < Struct.new(:name, :body); end
+# Contract definition.
+class ContractNode < Struct.new(:name, :body); end
 
 # "if" control structure. Look at this node if you want to implement other control
 # structures like while, for, loop, etc.
