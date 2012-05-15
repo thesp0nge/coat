@@ -1,29 +1,41 @@
-class Coat::Parser 
-
+class Coat::Parser
+#
+# Declare tokens produced by the lexer
+token PRE
 token CONTRACT
-token CONSTANT
+token POST
 token NEWLINE
 token NUMBER
 token STRING
-token IDENTIFIER
-token INDENT DEDENT
-token PRECON
-token POSTCON
-token API
 token READ
-token WRITE
-token FORM
-token TRUE FALSE NIL
-token TO
-token STDOUT
+token FROM
 token STDERR
+token STDOUT
+token API
+token IDENTIFIER
+token CONSTANT
+token INDENT DEDENT
+token TRUE FALSE NIL
 
 rule
-   Root:
+  # All rules are declared in this format:
+  #
+  #   RuleName:
+  #     OtherRule TOKEN AnotherRule    { code to run when this matches }
+  #   | OtherRule                      { ... }
+  #   ;
+  #
+  # In the code section (inside the {...} on the right):
+  # - Assign to "result" the value returned by the rule.
+  # - Use val[index of expression] to reference expressions on the left.
+  
+  
+  # All parsing will end in this rule, being the trunk of the AST.
+  Root:
     /* nothing */                      { result = Nodes.new([]) }
   | Expressions                        { result = val[0] }
   ;
-
+  
   # Any list of expressions, class or method body, seperated by line breaks.
   Expressions:
     Expression                         { result = Nodes.new(val) }
@@ -37,17 +49,19 @@ rule
   Expression:
     Literal
   | Contract
-  | Call
-  | Assign
+  | Api
+  | Constant
+  | Pre
+  | Post
   | '(' Expression ')'    { result = val[1] }
   ;
-
+  
+  # All tokens that can terminate an expression
   Terminator:
     NEWLINE
   | ";"
   ;
-
-
+  
   # All hard-coded values
   Literal:
     NUMBER                        { result = NumberNode.new(val[0]) }
@@ -56,40 +70,26 @@ rule
   | FALSE                         { result = FalseNode.new }
   | NIL                           { result = NilNode.new }
   ;
-
+  
+  # The contract definition
   Contract:
-  CONTRACT CONSTANT ":" Block          { result = ContractNode.new(val[1], val[2]) }
+    CONTRACT CONSTANT Block       { result = ContractNode.new(val[1], val[2]) }
+  ;
+  
+  Api:
+    API Block                     { result = ApiNode.new(val[1], val[2]) }
   ;
 
-  
-  # A method call
-  Call:
-    # method
-    IDENTIFIER                    { result = CallNode.new(nil, val[0], []) }
-    # method(arguments)
-  | IDENTIFIER "(" ArgList ")"    { result = CallNode.new(nil, val[0], val[2]) }
-    # receiver.method
-  | Expression "." IDENTIFIER     { result = CallNode.new(val[0], val[2], []) }
-    # receiver.method(arguments)
-  | Expression "."
-      IDENTIFIER "(" ArgList ")"  { result = CallNode.new(val[0], val[2], val[4]) }
-  ;
-  
-  ArgList:
-    /* nothing */                 { result = [] }
-  | Expression                    { result = val }
-  | ArgList "," Expression        { result = val[0] << val[2] }
+  Constant:
+    CONSTANT                      { result = GetConstantNode.new(val[0]) }
   ;
 
-  # Assignment to a variable or constant
-  Assign:
-    IDENTIFIER "=" Expression     { result = SetLocalNode.new(val[0], val[2]) }
+  Pre:
+    PRE Block                     { result = PreNode.new(val[0]) }
   ;
-  
-  ParamList:
-    /* nothing */                 { result = [] }
-  | IDENTIFIER                    { result = val }
-  | ParamList "," IDENTIFIER      { result = val[0] << val[2] }
+
+  Post:
+    POST Block                    { result = PostNode.new(val[0]) }
   ;
   
   # A block of indented code. You see here that all the hard work was done by the
@@ -110,7 +110,7 @@ end
 ---- inner
   # This code will be put as-is in the Parser class.
   def parse(code, show_tokens=false)
-    @tokens = Coat::Lexer.new.tokenize(code) # Tokenize the code using our lexer
+    @tokens = Lexer.new.tokenize(code) # Tokenize the code using our lexer
     puts @tokens.inspect if show_tokens
     do_parse # Kickoff the parsing process
   end

@@ -13,10 +13,10 @@ describe "A valid coat program is" do
   it "a program with an empty contract" do
     code = <<-CODE 
 contract TestContract:
-  a
+  ;
 CODE
     node = Nodes.new([ContractNode.new("TestContract")])
 
-    Coat::Parser.new.parse(code, true) == node
+    Coat::Parser.new.parse(code) =~ node
   end
 end

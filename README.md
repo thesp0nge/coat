@@ -45,14 +45,16 @@ contract "HelloWorld":
   \# Usually post conditions deal with output or they can be empty if there is
   \# no particular output or if your class is not design to be executed from command
   \# line as example.
-  pre: none
+  pre: 
+    none
   \# Here "read", "from" and "stout" are coat keywords to be used to build the
   \# BDD spec file.
-  post: read "Hello world" from stdout
+  post: 
+    read "Hello world" from stdout
 
   \# We declare here the public apis for the HelloWorld class.
   \# An empty newline will be the methods separator
-  api
+  api:
     \# A public say_hello method here with pre and post conditions. I don't
     \# care about how you would like to achieve it. True to be told, it's fine if
     \# after coat preprocessing, your hello_world.rb file won't to anything. 
