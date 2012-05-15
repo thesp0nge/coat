@@ -3,6 +3,7 @@ parser.rb
 .DS*
 *.swp
 *.gem
+*.swo
 .bundle
 Gemfile.lock
 pkg/*

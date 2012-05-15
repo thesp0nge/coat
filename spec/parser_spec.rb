@@ -13,7 +13,41 @@ describe "Coat parser" do
   end
 
   it "must parse the hello world" do
-    fail "you must write it"
+code= <<-CODE
+contract HelloWorld:
+  pre:
+    none
+  post:
+    read "Hello world" from stdout
+  api:
+    def say_hello:
+      pre:
+        none
+      post:
+        "Hello world"
+CODE
+    nodes = Nodes.new([
+      ContractNode.new("HelloWorld", 
+                       Nodes.new([
+                                 PreNode.new(Nodes.new(
+                                   [ NoneNode.new() ]
+                                 )),
+                                 PostNode.new(Nodes.new(
+                                   [ReadNode.new(
+                                     StringNode.new("Hello world"))]
+                                 )),
+                                   ApiNode.new(Nodes.new([DefNode.new("say_hello",
+                                                                      Nodes.new(
+                                                                        [PreNode.new(Nodes.new([NoneNode.new()])),
+                                                                          PostNode.new(Nodes.new([StringNode.new("Hello world")]))
+                                 ]))])
+                                 )
+
+                       ])
+      )
+      ])
+
+      parser.parse(code).should == nodes
   end
     
   

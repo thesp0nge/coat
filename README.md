@@ -60,7 +60,7 @@ contract HelloWorld:
     \# after coat preprocessing, your hello_world.rb file won't to anything. 
     \#
     \# Remember, you must look for hello_world_spec.rb and use BDD.
-    say_hello
+    def say_hello
       pre: 
         none
       post: 

@@ -3,6 +3,7 @@ class Coat::Parser
 # Declare tokens produced by the lexer
 token PRE
 token CONTRACT
+token DEF
 token POST
 token NEWLINE
 token NUMBER
@@ -51,8 +52,10 @@ rule
   | Contract
   | Api
   | Constant
+  | Read
   | Pre
   | Post
+  | Def
   | '(' Expression ')'    { result = val[1] }
   ;
   
@@ -72,6 +75,9 @@ rule
   | NONE                          { result = NoneNode.new }
   ;
   
+  Read:
+    READ Literal FROM STDOUT      { result = ReadNode.new(val[1]) } # reading from files will be handled later...
+  ;
   # The contract definition
   Contract:
     CONTRACT CONSTANT Block       { result = ContractNode.new(val[1], val[2]) }
@@ -86,11 +92,15 @@ rule
   ;
 
   Pre:
-    PRE Block                     { result = PreNode.new(val[0]) }
+    PRE Block                     { result = PreNode.new(val[1]) }
   ;
 
   Post:
-    POST Block                    { result = PostNode.new(val[0]) }
+    POST Block                    { result = PostNode.new(val[1]) }
+  ;
+  
+  Def: 
+    DEF IDENTIFIER Block          { result = DefNode.new(val[1], val[2]) }
   ;
   
   # A block of indented code. You see here that all the hard work was done by the

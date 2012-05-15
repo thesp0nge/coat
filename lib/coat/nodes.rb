@@ -49,3 +49,9 @@ class PreNode < Struct.new(:body); end
 
 # Post conditions
 class PostNode < Struct.new(:body); end
+
+class ReadNode < Struct.new(:value); end
+
+# Method definition.
+class DefNode < Struct.new(:name, :body); end
+
