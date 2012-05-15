@@ -47,4 +47,8 @@ CODE
 
   end
 
+  it "must recognize the hello world contract " do
+    fail "you must write it"
+  end
+
 end

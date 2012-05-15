@@ -19,4 +19,8 @@ CODE
 
     Coat::Parser.new.parse(code) =~ node
   end
+
+  it "the hello world program" do
+    fail "you must write it"
+  end
 end

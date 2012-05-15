@@ -11,6 +11,10 @@ describe "Coat parser" do
   it "must parse a string literal" do
     parser.parse('"test"').should == Nodes.new([StringNode.new("test")])
   end
+
+  it "must parse the hello world" do
+    fail "you must write it"
+  end
     
   
 end
