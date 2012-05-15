@@ -38,7 +38,7 @@ Let's look at our first coat program.
 ``` hello_world.coat
 \# As in ruby, this is a comment. We will follow the same naming convention
 \# used in ruby to translate filenames in class.
-contract "HelloWorld":
+contract HelloWorld:
 
   \# Classes can have pre and post conditions as well.
   \# Pre conditions can be environment variables or command line switches
@@ -61,8 +61,10 @@ contract "HelloWorld":
     \#
     \# Remember, you must look for hello_world_spec.rb and use BDD.
     say_hello
-      pre: none
-      post: "Hello world"
+      pre: 
+        none
+      post: 
+        "Hello world"
 ```
 
 This would be the contract for an "Hello world" project.

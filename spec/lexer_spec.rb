@@ -48,7 +48,33 @@ CODE
   end
 
   it "must recognize the hello world contract " do
-    fail "you must write it"
+code= <<-CODE
+contract HelloWorld:
+  pre:
+    none
+  post:
+    read "Hello world" from stdout
+  api:
+    say_hello:
+      pre:
+        none
+      post:
+        "Hello world"
+CODE
+    tokens = [
+      [:CONTRACT, "contract"], [:CONSTANT, "HelloWorld"],
+      [:INDENT, 2], [:PRE, "pre"],
+      [:INDENT, 4], [:NONE, "none"], [:DEDENT, 2], [:NEWLINE, "\n"],
+      [:POST, "post"],
+      [:INDENT, 4], [:READ, "read"], [:STRING, "Hello world"], [:FROM, "from"], [:STDOUT, "stdout"], [:DEDENT, 2], [:NEWLINE, "\n"],
+      [:API, "api"],
+      [:INDENT, 4], [:IDENTIFIER, "say_hello"],
+      [:INDENT, 6], [:PRE, "pre"],
+      [:INDENT, 8], [:NONE, "none"], [:DEDENT, 6], [:NEWLINE, "\n"],
+      [:POST, "post"],
+      [:INDENT, 8], [:STRING, "Hello world"], [:DEDENT, 2], [:DEDENT, 2], [:DEDENT, 2], [:DEDENT, 0]
+    ]
+    lexer.tokenize(code).should =~ tokens
   end
 
 end

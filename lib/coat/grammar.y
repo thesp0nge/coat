@@ -15,7 +15,7 @@ token API
 token IDENTIFIER
 token CONSTANT
 token INDENT DEDENT
-token TRUE FALSE NIL
+token TRUE FALSE NIL NONE
 
 rule
   # All rules are declared in this format:
@@ -69,6 +69,7 @@ rule
   | TRUE                          { result = TrueNode.new }
   | FALSE                         { result = FalseNode.new }
   | NIL                           { result = NilNode.new }
+  | NONE                          { result = NoneNode.new }
   ;
   
   # The contract definition

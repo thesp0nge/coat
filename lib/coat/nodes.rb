@@ -26,6 +26,11 @@ class NilNode < LiteralNode
     super(nil)
   end
 end
+class NoneNode < LiteralNode
+  def initialize
+    super("none")
+  end
+end
 
 # Retrieving the value of a constant.
 class GetConstantNode < Struct.new(:name); end
