@@ -18,7 +18,7 @@ contract HelloWorld:
   pre:
     none
   post:
-    read "Hello world" from stdout
+    write "Hello world" to stdout
   api:
     def say_hello:
       pre:
@@ -33,7 +33,7 @@ CODE
                                    [ NoneNode.new() ]
                                  )),
                                  PostNode.new(Nodes.new(
-                                   [ReadNode.new(
+                                   [WriteNode.new(
                                      StringNode.new("Hello world"))]
                                  )),
                                    ApiNode.new(Nodes.new([DefNode.new("say_hello",

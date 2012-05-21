@@ -47,7 +47,7 @@ contract HelloWorld:
   \# line as example.
   pre: 
     none
-  \# Here "read", "from" and "stdout" are coat keywords to be used to build the
+  \# Here "read", "from" and "stout" are coat keywords to be used to build the
   \# BDD spec file.
   post: 
     read "Hello world" from stdout

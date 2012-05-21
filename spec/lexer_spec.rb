@@ -53,7 +53,7 @@ contract HelloWorld:
   pre:
     none
   post:
-    read "Hello world" from stdout
+    write "Hello world" to stdout
   api:
     def say_hello:
       pre:
@@ -66,7 +66,7 @@ CODE
       [:INDENT, 2], [:PRE, "pre"],
       [:INDENT, 4], [:NONE, "none"], [:DEDENT, 2], [:NEWLINE, "\n"],
       [:POST, "post"],
-      [:INDENT, 4], [:READ, "read"], [:STRING, "Hello world"], [:FROM, "from"], [:STDOUT, "stdout"], [:DEDENT, 2], [:NEWLINE, "\n"],
+      [:INDENT, 4], [:WRITE, "write"], [:STRING, "Hello world"], [:TO, "to"], [:STDOUT, "stdout"], [:DEDENT, 2], [:NEWLINE, "\n"],
       [:API, "api"],
       [:INDENT, 4], [:DEF, "def"], [:IDENTIFIER, "say_hello"],
       [:INDENT, 6], [:PRE, "pre"],

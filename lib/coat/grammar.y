@@ -10,6 +10,8 @@ token NUMBER
 token STRING
 token READ
 token FROM
+token WRITE
+token TO
 token STDERR
 token STDOUT
 token API
@@ -53,6 +55,7 @@ rule
   | Api
   | Constant
   | Read
+  | Write
   | Pre
   | Post
   | Def
@@ -77,6 +80,10 @@ rule
   
   Read:
     READ Literal FROM STDOUT      { result = ReadNode.new(val[1]) } # reading from files will be handled later...
+  ;
+
+  Write:
+    WRITE Literal TO STDOUT       { result = WriteNode.new(val[1]) }
   ;
   # The contract definition
   Contract:

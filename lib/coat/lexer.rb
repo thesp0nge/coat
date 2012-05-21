@@ -1,6 +1,6 @@
 module Coat
   class Lexer
-    KEYWORDS = ["def", "none", "pre", "contract", "post", "read", "from", "stdout", "stderr", "api"]
+    KEYWORDS = ["def", "none", "pre", "contract", "post", "read", "from", "write", "to", "stdout", "stderr", "api"]
 
     def tokenize(code)
       # Cleanup code by remove extra line breaks
