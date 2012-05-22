@@ -1,26 +1,47 @@
 require 'spec_helper'
 
-describe "A valid coat program is" do
-
-  ## An empty code program is parsed but no nodes are returned.
-  it "a program with the only ';' identifier" do
-    code = ";"
-    node =  Nodes.new([])
-
-    Coat::Parser.new.parse(code) == node
-  end
-
-  it "a program with an empty contract" do
-    code = <<-CODE 
-contract TestContract:
-  ;
+describe "A valid coat program" do
+  before(:all) do
+@hello= <<-CODE
+contract HelloWorld:
+  pre:
+    none
+  post:
+    write "Hello world" to stdout
+  api:
+    def say_hello:
+      pre:
+        none
+      post:
+        "Hello world"
 CODE
-    node = Nodes.new([ContractNode.new("TestContract")])
+      @compiler = Coat::Compiler.new
+      @compiler.read_from_stdout(@hello)
+      @compiler.compile
+    end
 
-    Coat::Parser.new.parse(code) =~ node
-  end
+  describe "compiling the hello world program" do
+   
+    it "should exist" do
+      @compiler.nil?.should be_false
+    end
 
-  it "the hello world program" do
-    fail "you must write it"
+    it "should have a code" do
+      @compiler.code.should == @hello
+    end
+    it "should have parsed the code" do
+      @compiler.parsed.should be_true
+      @compiler.parser.should_not be_nil
+    end
+   end
+
+  describe "must cause the compiler" do  
+    it "to extract an HelloWorld named contract" do
+      @compiler.contract.name.should == "HelloWorld"
+    end
+
+    it "to create an hello_world.rb file" do
+      File.exists?('hello_world.rb').should be_true
+    end
   end
 end
