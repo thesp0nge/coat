@@ -21,18 +21,9 @@ module Coat
       @parser = Coat::Parser.new
       @ast = @parser.parse(code)
 
-      @contract = Coat::Contract.new(@ast.first)
-
       @parsed= true
+      @contract = Coat::Contract.new(@ast.first)
     end
 
-    private
-    def generate_ruby_file(name)
-
-    end
-
-    def generate_spec_file(name)
-
-    end
   end
 end
